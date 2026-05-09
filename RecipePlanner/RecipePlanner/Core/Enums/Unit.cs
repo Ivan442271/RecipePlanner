@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RecipePlanner.Core.Enums
+namespace RecipePlanner.Core.Enums;
+
+public enum Unit
 {
-    internal class Unit
-    {
-    }
+    Gram,
+    Kilogram,
+    Milliliter,
+    Liter,
+    Piece,
+    Tablespoon,
+    Teaspoon
 }
