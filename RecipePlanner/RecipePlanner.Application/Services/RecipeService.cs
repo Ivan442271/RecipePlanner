@@ -11,6 +11,8 @@ namespace RecipePlanner.Application.Services
     {
         private readonly JsonRecipeRepository _repository;
 
+        private readonly string _settingsPath = "settings.json";
+
         public RecipeService()
         {
             _repository = new JsonRecipeRepository();
@@ -114,6 +116,36 @@ namespace RecipePlanner.Application.Services
             }
 
             _repository.SaveAll(recipes);
+        }
+
+        public AppSettings GetSettings()
+        {
+            if (!File.Exists(_settingsPath))
+            {
+                AppSettings defaultSettings = new AppSettings();
+
+                defaultSettings.DefaultPortions = 1;
+                defaultSettings.DefaultSortOption = SortOption.ByName;
+
+                SaveSettings(defaultSettings);
+
+                return defaultSettings;
+            }
+
+            string json = File.ReadAllText(_settingsPath);
+
+            AppSettings settings =
+                System.Text.Json.JsonSerializer.Deserialize<AppSettings>(json);
+
+            return settings;
+        }
+
+        public void SaveSettings(AppSettings settings)
+        {
+            string json =
+                System.Text.Json.JsonSerializer.Serialize(settings);
+
+            File.WriteAllText(_settingsPath, json);
         }
     }
 }

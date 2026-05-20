@@ -28,6 +28,7 @@ namespace RecipePlanner.ConsoleUI.Menus
                 Console.WriteLine("1. Recipes");
                 Console.WriteLine("2. Add recipe");
                 Console.WriteLine("3. Favorites");
+                Console.WriteLine("4. Settings");
                 Console.WriteLine("0. Exit");
 
                 string choice = Console.ReadLine();
@@ -44,6 +45,10 @@ namespace RecipePlanner.ConsoleUI.Menus
 
                     case "3":
                         ShowFavorites();
+                        break;
+
+                    case "4":
+                        ShowSettings();
                         break;
 
                     case "0":
@@ -478,6 +483,28 @@ namespace RecipePlanner.ConsoleUI.Menus
             _recipeService.UpdateRecipe(recipe);
 
             Console.WriteLine("Recipe updated.");
+
+            Console.ReadKey();
+        }
+
+        private void ShowSettings()
+        {
+            Console.Clear();
+
+            AppSettings settings = _recipeService.GetSettings();
+
+            Console.WriteLine($"Default portions: {settings.DefaultPortions}");
+            Console.WriteLine($"Default sort: {settings.DefaultSortOption}");
+
+            Console.WriteLine();
+            Console.Write("New default portions: ");
+
+            settings.DefaultPortions =
+                int.Parse(Console.ReadLine());
+
+            _recipeService.SaveSettings(settings);
+
+            Console.WriteLine("Settings saved.");
 
             Console.ReadKey();
         }
