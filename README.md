@@ -1,136 +1,76 @@
-\# Recipe Planner
-
-
+# Recipe Planner
 
 Recipe Planner is a TUI application for storing recipes and creating shopping lists.
 
+## Subject area
 
+The application is designed for storing cooking recipes, organizing ingredients and generating shopping lists based on selected recipes.
 
-\## Features
+## Features
 
+- create recipes
+- edit recipes
+- delete recipes
+- save ingredients and cooking steps
+- search recipes
+- filter recipes by category
+- sort recipes
+- scale portions
+- favorites support
+- shopping list generation
+- application settings
 
+## Technologies
 
-\- create recipes
+- C#
+- .NET 10
+- JSON serialization
+- NUnit
 
-\- edit recipes
+## Project structure
 
-\- delete recipes
-
-\- save ingredients and cooking steps
-
-\- search recipes
-
-\- filter recipes by category
-
-\- sort recipes
-
-\- scale portions
-
-\- favorites support
-
-\- shopping list generation
-
-\- application settings
-
-
-
-\## Technologies
-
-
-
-\- C#
-
-\- .NET 10
-
-\- JSON serialization
-
-\- NUnit
-
-
-
-\## Project structure
-
-
-
-\### RecipePlanner.Domain
-
+### RecipePlanner.Domain
 Contains models, enums and interfaces.
 
-
-
-\### RecipePlanner.Application
-
+### RecipePlanner.Application
 Contains business logic, repositories and services.
 
-
-
-\### RecipePlanner.ConsoleUI
-
+### RecipePlanner.ConsoleUI
 Contains terminal user interface.
 
-
-
-\### RecipePlanner.Tests
-
+### RecipePlanner.Tests
 Contains unit tests.
 
-
-
-\## Data storage
-
-
+## Data storage
 
 Recipes are stored in:
 
-
-
 ```text
-
 recipes.json
-
 ```
-
-
 
 Application settings are stored in:
 
-
-
 ```text
-
 settings.json
-
 ```
 
-
-
-\## Run project
-
-
+## Run project
 
 Open solution in Visual Studio and run:
 
-
-
 ```text
-
 RecipePlanner.ConsoleUI
-
 ```
 
-
-
-\## Tests
-
-
+## Tests
 
 Run tests using Test Explorer in Visual Studio.
 
-
-
-\## Publish
-
-
+## Publish
 
 Build self-contained publish version using Visual Studio publish tools.
 
+## Example data
+
+After the first launch the application automatically creates JSON files for recipes and settings storage.
