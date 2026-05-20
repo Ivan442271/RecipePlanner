@@ -1,24 +1,26 @@
-﻿using System;
+﻿using RecipePlanner.Application.Repositories;
+using RecipePlanner.Domain.Enums;
+using RecipePlanner.Domain.Interfaces;
+using RecipePlanner.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using RecipePlanner.Application.Repositories;
-using RecipePlanner.Domain.Enums;
-using RecipePlanner.Domain.Models;
+
 
 namespace RecipePlanner.Application.Services
 {
     public class RecipeService
     {
-        private readonly JsonRecipeRepository _repository;
+        private readonly IRepository<Recipe> _repository;
 
         private readonly string _settingsPath = "settings.json";
 
-        public RecipeService()
-        {
-            _repository = new JsonRecipeRepository();
-        }
+        public RecipeService(IRepository<Recipe> repository)
+    {
+        _repository = repository;
+    }
 
-        public List<Recipe> GetAllRecipes()
+    public List<Recipe> GetAllRecipes()
         {
             return _repository.GetAll();
         }

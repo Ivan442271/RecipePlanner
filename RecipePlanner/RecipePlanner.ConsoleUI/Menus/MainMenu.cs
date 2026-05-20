@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using RecipePlanner.Application.Repositories;
 using RecipePlanner.Application.Services;
 using RecipePlanner.Domain.Enums;
 using RecipePlanner.Domain.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
 
 namespace RecipePlanner.ConsoleUI.Menus
 {
@@ -13,7 +15,7 @@ namespace RecipePlanner.ConsoleUI.Menus
 
         public MainMenu()
         {
-            _recipeService = new RecipeService();
+            _recipeService = new RecipeService(new JsonRecipeRepository());
         }
 
         public void Show()
@@ -24,7 +26,7 @@ namespace RecipePlanner.ConsoleUI.Menus
             {
                 Console.Clear();
 
-                Console.WriteLine("=== Recipe Planner ===");
+                Console.WriteLine("Recipe Planner");
                 Console.WriteLine("1. Recipes");
                 Console.WriteLine("2. Add recipe");
                 Console.WriteLine("3. Favorites");
