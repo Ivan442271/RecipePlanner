@@ -1,4 +1,6 @@
 <Solution>
+  <Project Path="RecipePlanner.Application/RecipePlanner.Application.csproj" Id="4e7a7ebf-34b9-4fad-b973-81968fe58b83" />
+  <Project Path="RecipePlanner.ConsoleUI/RecipePlanner.ConsoleUI.csproj" Id="dd81ebce-62c9-4a8a-bf5b-b34e87ab5721" />
+  <Project Path="RecipePlanner.Domain/RecipePlanner.Domain.csproj" Id="6a4174f6-6a05-4e92-96f3-c68f55216617" />
   <Project Path="RecipePlanner.Tests/RecipePlanner.Tests.csproj" />
-  <Project Path="RecipePlanner/RecipePlanner.csproj" />
 </Solution>

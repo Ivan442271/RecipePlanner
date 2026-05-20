@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RecipePlanner.Application\RecipePlanner.Application.csproj" />
+    <ProjectReference Include="..\RecipePlanner.Domain\RecipePlanner.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
