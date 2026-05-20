@@ -1,76 +1,105 @@
 # Recipe Planner
 
-Recipe Planner is a TUI application for storing recipes and creating shopping lists.
+Recipe Planner — це застосунок для зберігання рецептів та формування списків покупок. Програма дозволяє додавати власні рецепти, переглядати інгредієнти, шукати страви, змінювати кількість порцій та зберігати улюблені рецепти.
 
-## Subject area
+## Предметна область
 
-The application is designed for storing cooking recipes, organizing ingredients and generating shopping lists based on selected recipes.
+Застосунок призначений для роботи з кулінарними рецептами. Користувач може створювати рецепти, зберігати інгредієнти та етапи приготування, виконувати пошук і фільтрацію рецептів, а також формувати список продуктів для покупки.
 
-## Features
+## Основні можливості
 
-- create recipes
-- edit recipes
-- delete recipes
-- save ingredients and cooking steps
-- search recipes
-- filter recipes by category
-- sort recipes
-- scale portions
-- favorites support
-- shopping list generation
-- application settings
+- створення рецептів;
+- редагування рецептів;
+- видалення рецептів;
+- збереження інгредієнтів та етапів приготування;
+- пошук рецептів за назвою;
+- фільтрація рецептів за категоріями;
+- сортування рецептів;
+- масштабування кількості інгредієнтів;
+- формування списку покупок;
+- робота з улюбленими рецептами;
+- збереження налаштувань застосунку.
 
-## Technologies
+## Використані технології
 
 - C#
 - .NET 10
 - JSON serialization
 - NUnit
 
-## Project structure
+## Структура проєкту
 
 ### RecipePlanner.Domain
-Contains models, enums and interfaces.
+
+Містить основні моделі та структури предметної області:
+
+- Recipe
+- Ingredient
+- AppSettings
+- RecipeCategory
+- DifficultyLevel
+- UnitType
+- SortOption
+- IRepository<T>
 
 ### RecipePlanner.Application
-Contains business logic, repositories and services.
+
+Містить бізнес-логіку застосунку:
+
+- RecipeService
+- ShoppingListService
+- JsonRecipeRepository
 
 ### RecipePlanner.ConsoleUI
-Contains terminal user interface.
+
+Містить консольний інтерфейс користувача:
+
+- MainMenu
+- Program
 
 ### RecipePlanner.Tests
-Contains unit tests.
 
-## Data storage
+Містить unit-тести для основної бізнес-логіки:
 
-Recipes are stored in:
+- RecipeServiceTests
+- FakeRecipeRepository
+
+## Збереження даних
+
+Рецепти зберігаються у файлі:
 
 ```text
 recipes.json
 ```
 
-Application settings are stored in:
+Налаштування застосунку зберігаються у файлі:
 
 ```text
 settings.json
 ```
 
-## Run project
+У settings.json зберігаються:
+- стандартна кількість порцій;
+- стандартний тип сортування.
 
-Open solution in Visual Studio and run:
+## Запуск програми
+
+Для запуску застосунку потрібно відкрити publish-версію програми та запустити файл:
 
 ```text
-RecipePlanner.ConsoleUI
+RecipePlanner.ConsoleUI.exe
 ```
 
-## Tests
+Програма запускається без необхідності встановлення .NET SDK або Visual Studio.
 
-Run tests using Test Explorer in Visual Studio.
+## Тестування
 
-## Publish
+Unit-тести запускаються через Test Explorer у Visual Studio.
 
-Build self-contained publish version using Visual Studio publish tools.
+## Приклади даних
 
-## Example data
+У репозиторії присутні приклади файлів:
+- recipes.json
+- settings.json
 
-After the first launch the application automatically creates JSON files for recipes and settings storage.
+Файли містять тестові дані для перевірки функціональності програми.
