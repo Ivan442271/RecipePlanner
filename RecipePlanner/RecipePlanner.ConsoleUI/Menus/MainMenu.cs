@@ -139,6 +139,9 @@ namespace RecipePlanner.ConsoleUI.Menus
                 Console.WriteLine("1. View");
                 Console.WriteLine("2. Delete");
                 Console.WriteLine("3. Add to favorites");
+                Console.WriteLine("4. Shopping list");
+                Console.WriteLine("5. Scale portions");
+                Console.WriteLine("6. Edit recipe");
                 Console.WriteLine("0. Back");
 
                 string choice = Console.ReadLine();
@@ -160,6 +163,18 @@ namespace RecipePlanner.ConsoleUI.Menus
 
                         Console.WriteLine("Recipe added to favorites.");
                         Console.ReadKey();
+                        break;
+
+                    case "4":
+                        ShowShoppingList(recipe);
+                        break;
+
+                    case "5":
+                        ScaleRecipe(recipe);
+                        break;
+
+                    case "6":
+                        EditRecipe(recipe);
                         break;
 
                     case "0":
@@ -378,6 +393,91 @@ namespace RecipePlanner.ConsoleUI.Menus
             _recipeService.DeleteRecipe(index);
 
             Console.WriteLine("Recipe deleted.");
+
+            Console.ReadKey();
+        }
+
+        private void ShowShoppingList(Recipe recipe)
+        {
+            Console.Clear();
+
+            Console.WriteLine("Select ingredients you already have.");
+            Console.WriteLine();
+
+            List<Ingredient> missingIngredients = new List<Ingredient>();
+
+            for (int i = 0; i < recipe.Ingredients.Count; i++)
+            {
+                Ingredient ingredient = recipe.Ingredients[i];
+
+                Console.Write($"Do you have {ingredient.Name}? (y/n): ");
+
+                string answer = Console.ReadLine();
+
+                if (answer.ToLower() == "n")
+                {
+                    missingIngredients.Add(ingredient);
+                }
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Shopping list:");
+
+            if (missingIngredients.Count == 0)
+            {
+                Console.WriteLine("You already have all ingredients.");
+            }
+            else
+            {
+                foreach (Ingredient ingredient in missingIngredients)
+                {
+                    Console.WriteLine($"{ingredient.Name} - {ingredient.Amount} {ingredient.UnitType}");
+                }
+            }
+
+            Console.ReadKey();
+        }
+
+        private void ScaleRecipe(Recipe recipe)
+        {
+            Console.Clear();
+
+            Console.Write("Enter new portions count: ");
+
+            int newPortions = int.Parse(Console.ReadLine());
+
+            double multiplier = (double)newPortions / recipe.Portions;
+
+            foreach (Ingredient ingredient in recipe.Ingredients)
+            {
+                ingredient.Amount = ingredient.Amount * multiplier;
+            }
+
+            recipe.Portions = newPortions;
+
+            _recipeService.UpdateRecipe(recipe);
+
+            Console.WriteLine("Recipe updated.");
+
+            Console.ReadKey();
+        }
+
+        private void EditRecipe(Recipe recipe)
+        {
+            Console.Clear();
+
+            Console.Write("New recipe name: ");
+            recipe.Name = Console.ReadLine();
+
+            Console.Write("New cooking time: ");
+            recipe.CookingTimeInMinutes = int.Parse(Console.ReadLine());
+
+            Console.Write("New notes: ");
+            recipe.Notes = Console.ReadLine();
+
+            _recipeService.UpdateRecipe(recipe);
+
+            Console.WriteLine("Recipe updated.");
 
             Console.ReadKey();
         }
