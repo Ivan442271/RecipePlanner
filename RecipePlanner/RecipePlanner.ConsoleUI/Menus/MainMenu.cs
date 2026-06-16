@@ -225,103 +225,117 @@ namespace RecipePlanner.ConsoleUI.Menus
 
         private void AddRecipe()
         {
-            Console.Clear();
-
-            Recipe recipe = new Recipe();
-
-            Console.Write("Recipe name: ");
-            recipe.Name = Console.ReadLine();
-
-            Console.Write("Cooking time in minutes: ");
-            recipe.CookingTimeInMinutes = int.Parse(Console.ReadLine());
-
-            Console.Write("Portions: ");
-            recipe.Portions = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Select category:");
-            Console.WriteLine("0. Breakfast");
-            Console.WriteLine("1. MainCourse");
-            Console.WriteLine("2. Dessert");
-            Console.WriteLine("3. Salad");
-            Console.WriteLine("4. Soup");
-            Console.WriteLine("5. Snack");
-
-            recipe.Category = (RecipeCategory)int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Select difficulty:");
-            Console.WriteLine("0. Easy");
-            Console.WriteLine("1. Medium");
-            Console.WriteLine("2. Hard");
-
-            recipe.DifficultyLevel = (DifficultyLevel)int.Parse(Console.ReadLine());
-
-            recipe.Ingredients = new List<Ingredient>();
-
-            bool addMoreIngredients = true;
-
-            while (addMoreIngredients)
+            try
             {
-                Ingredient ingredient = new Ingredient();
+                Console.Clear();
+                Console.Write("Recipe name: ");
+                string inputName = Console.ReadLine();
 
-                Console.Write("Ingredient name: ");
-                ingredient.Name = Console.ReadLine();
-
-                Console.Write("Amount: ");
-                ingredient.Amount = double.Parse(Console.ReadLine());
-
-                Console.WriteLine("Unit type:");
-                Console.WriteLine("0. Grams");
-                Console.WriteLine("1. Kilograms");
-                Console.WriteLine("2. Milliliters");
-                Console.WriteLine("3. Liters");
-                Console.WriteLine("4. Pieces");
-
-                ingredient.UnitType = (UnitType)int.Parse(Console.ReadLine());
-
-                recipe.Ingredients.Add(ingredient);
-
-                Console.Write("Add another ingredient? (y/n): ");
-
-                string answer = Console.ReadLine();
-
-                if (answer.ToLower() != "y")
+                if (_recipeService.GetAllRecipes().Any(r => r.Name.ToLower() == inputName.ToLower()))
                 {
-                    addMoreIngredients = false;
+                    Console.WriteLine("Recipe with this name already exists.");
+                    Console.ReadKey();
+                    return;
                 }
+
+                Recipe recipe = new Recipe();
+                recipe.Name = inputName;
+
+                Console.Write("Cooking time in minutes: ");
+                recipe.CookingTimeInMinutes = int.Parse(Console.ReadLine());
+
+                Console.Write("Portions: ");
+                recipe.Portions = int.Parse(Console.ReadLine());
+
+                Console.WriteLine("Select category:");
+                Console.WriteLine("0. Breakfast");
+                Console.WriteLine("1. MainCourse");
+                Console.WriteLine("2. Dessert");
+                Console.WriteLine("3. Salad");
+                Console.WriteLine("4. Soup");
+                Console.WriteLine("5. Snack");
+
+                recipe.Category = (RecipeCategory)int.Parse(Console.ReadLine());
+
+                Console.WriteLine("Select difficulty:");
+                Console.WriteLine("0. Easy");
+                Console.WriteLine("1. Medium");
+                Console.WriteLine("2. Hard");
+
+                recipe.DifficultyLevel = (DifficultyLevel)int.Parse(Console.ReadLine());
+
+                recipe.Ingredients = new List<Ingredient>();
+
+                bool addMoreIngredients = true;
+
+                while (addMoreIngredients)
+                {
+                    Ingredient ingredient = new Ingredient();
+
+                    Console.Write("Ingredient name: ");
+                    ingredient.Name = Console.ReadLine();
+
+                    Console.Write("Amount: ");
+                    ingredient.Amount = double.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Unit type:");
+                    Console.WriteLine("0. Grams");
+                    Console.WriteLine("1. Kilograms");
+                    Console.WriteLine("2. Milliliters");
+                    Console.WriteLine("3. Liters");
+                    Console.WriteLine("4. Pieces");
+
+                    ingredient.UnitType = (UnitType)int.Parse(Console.ReadLine());
+
+                    recipe.Ingredients.Add(ingredient);
+
+                    Console.Write("Add another ingredient? (y/n): ");
+
+                    string answer = Console.ReadLine();
+
+                    if (answer.ToLower() != "y")
+                    {
+                        addMoreIngredients = false;
+                    }
+                }
+
+                recipe.Steps = new List<string>();
+
+                bool addMoreSteps = true;
+
+                while (addMoreSteps)
+                {
+                    Console.Write("Step: ");
+
+                    string step = Console.ReadLine();
+
+                    recipe.Steps.Add(step);
+
+                    Console.Write("Add another step? (y/n): ");
+
+                    string answer = Console.ReadLine();
+
+                    if (answer.ToLower() != "y")
+                    {
+                        addMoreSteps = false;
+                    }
+                }
+
+                Console.Write("Notes: ");
+                recipe.Notes = Console.ReadLine();
+
+                recipe.IsFavorite = false;
+
+                _recipeService.AddRecipe(recipe);
+
+                Console.WriteLine("Recipe added.");
+                Console.ReadKey();
             }
-
-            recipe.Steps = new List<string>();
-
-            bool addMoreSteps = true;
-
-            while (addMoreSteps)
+            catch (Exception)
             {
-                Console.Write("Step: ");
-
-                string step = Console.ReadLine();
-
-                recipe.Steps.Add(step);
-
-                Console.Write("Add another step? (y/n): ");
-
-                string answer = Console.ReadLine();
-
-                if (answer.ToLower() != "y")
-                {
-                    addMoreSteps = false;
-                }
+                Console.WriteLine("Input error. Operation cancelled.");
+                Console.ReadKey();
             }
-
-            Console.Write("Notes: ");
-            recipe.Notes = Console.ReadLine();
-
-            recipe.IsFavorite = false;
-
-            _recipeService.AddRecipe(recipe);
-
-            Console.WriteLine("Recipe added.");
-
-            Console.ReadKey();
         }
 
         private void SearchRecipes()
@@ -395,12 +409,11 @@ namespace RecipePlanner.ConsoleUI.Menus
         {
             List<Recipe> recipes = _recipeService.GetAllRecipes();
 
-            int index = recipes.IndexOf(recipe);
+            int index = recipes.FindIndex(r => r.Name == recipe.Name);
 
             _recipeService.DeleteRecipe(index);
 
             Console.WriteLine("Recipe deleted.");
-
             Console.ReadKey();
         }
 
@@ -448,10 +461,15 @@ namespace RecipePlanner.ConsoleUI.Menus
         private void ScaleRecipe(Recipe recipe)
         {
             Console.Clear();
-
             Console.Write("Enter new portions count: ");
 
-            int newPortions = int.Parse(Console.ReadLine());
+            int newPortions;
+            if (!int.TryParse(Console.ReadLine(), out newPortions) || newPortions <= 0)
+            {
+                Console.WriteLine("Invalid portions count.");
+                Console.ReadKey();
+                return;
+            }
 
             double multiplier = (double)newPortions / recipe.Portions;
 
@@ -462,19 +480,24 @@ namespace RecipePlanner.ConsoleUI.Menus
 
             recipe.Portions = newPortions;
 
-            _recipeService.UpdateRecipe(recipe);
-
-            Console.WriteLine("Recipe updated.");
-
+            Console.WriteLine("Recipe scaled in memory.");
             Console.ReadKey();
         }
 
         private void EditRecipe(Recipe recipe)
         {
             Console.Clear();
-
             Console.Write("New recipe name: ");
-            recipe.Name = Console.ReadLine();
+            string inputName = Console.ReadLine();
+
+            if (inputName.ToLower() != recipe.Name.ToLower() && _recipeService.GetAllRecipes().Any(r => r.Name.ToLower() == inputName.ToLower()))
+            {
+                Console.WriteLine("Recipe with this name already exists.");
+                Console.ReadKey();
+                return;
+            }
+
+            recipe.Name = inputName;
 
             Console.Write("New cooking time: ");
             recipe.CookingTimeInMinutes = int.Parse(Console.ReadLine());

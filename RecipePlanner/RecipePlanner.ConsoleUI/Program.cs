@@ -9,6 +9,8 @@ namespace RecipePlanner.ConsoleUI
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.InputEncoding = Encoding.UTF8;
             MainMenu mainMenu = new MainMenu();
 
             mainMenu.Show();

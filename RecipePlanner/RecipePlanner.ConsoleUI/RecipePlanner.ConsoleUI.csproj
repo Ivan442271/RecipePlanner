@@ -9,11 +9,26 @@
 	  <RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	  <SelfContained>true</SelfContained>
 	  <PublishSingleFile>true</PublishSingleFile>
+	  <ApplicationIcon>RecipePlanner.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="recipes.json" />
+    <None Remove="settings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="RecipePlanner.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RecipePlanner.Application\RecipePlanner.Application.csproj" />
     <ProjectReference Include="..\RecipePlanner.Domain\RecipePlanner.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="recipes.json" />
+    <EmbeddedResource Include="settings.json" />
   </ItemGroup>
 
 </Project>

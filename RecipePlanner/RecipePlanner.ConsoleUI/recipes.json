@@ -1,0 +1,165 @@
+[
+  {
+    "Name": "Omelette",
+    "Category": 0,
+    "DifficultyLevel": 0,
+    "CookingTimeInMinutes": 10,
+    "Portions": 2,
+    "IsFavorite": false,
+    "Notes": "",
+    "Ingredients": [
+      {
+        "Name": "Eggs",
+        "Amount": 3,
+        "UnitType": 4
+      },
+      {
+        "Name": "Milk",
+        "Amount": 50,
+        "UnitType": 2
+      },
+      {
+        "Name": "Salt",
+        "Amount": 5,
+        "UnitType": 0
+      }
+    ],
+    "Steps": [
+      "Beat eggs",
+      "Add milk and salt",
+      "Fry in a pan"
+    ]
+  },
+  {
+    "Name": "Chicken Pasta",
+    "Category": 1,
+    "DifficultyLevel": 1,
+    "CookingTimeInMinutes": 35,
+    "Portions": 4,
+    "IsFavorite": false,
+    "Notes": "Family dinner",
+    "Ingredients": [
+      {
+        "Name": "Pasta",
+        "Amount": 300,
+        "UnitType": 0
+      },
+      {
+        "Name": "Chicken Fillet",
+        "Amount": 500,
+        "UnitType": 0
+      },
+      {
+        "Name": "Cream",
+        "Amount": 200,
+        "UnitType": 2
+      },
+      {
+        "Name": "Cheese",
+        "Amount": 100,
+        "UnitType": 0
+      },
+      {
+        "Name": "Garlic",
+        "Amount": 2,
+        "UnitType": 4
+      }
+    ],
+    "Steps": [
+      "Boil pasta",
+      "Fry Chicken",
+      "Add cream",
+      "Mix with pasta",
+      "add cheese"
+    ]
+  },
+  {
+    "Name": "Chocolate Cake",
+    "Category": 2,
+    "DifficultyLevel": 2,
+    "CookingTimeInMinutes": 90,
+    "Portions": 8,
+    "IsFavorite": false,
+    "Notes": "Birthday cake",
+    "Ingredients": [
+      {
+        "Name": "Flour",
+        "Amount": 400,
+        "UnitType": 0
+      },
+      {
+        "Name": "Sugar",
+        "Amount": 250,
+        "UnitType": 0
+      },
+      {
+        "Name": "Cocoa",
+        "Amount": 50,
+        "UnitType": 0
+      },
+      {
+        "Name": "Eggs",
+        "Amount": 4,
+        "UnitType": 4
+      },
+      {
+        "Name": "Milk",
+        "Amount": 300,
+        "UnitType": 2
+      },
+      {
+        "Name": "Butter",
+        "Amount": 200,
+        "UnitType": 0
+      }
+    ],
+    "Steps": [
+      "Mix Ingredients",
+      "Prepare batter",
+      "Bake",
+      "Cool and serve"
+    ]
+  },
+  {
+    "Name": "Caesar Salad",
+    "Category": 3,
+    "DifficultyLevel": 0,
+    "CookingTimeInMinutes": 15,
+    "Portions": 2,
+    "IsFavorite": false,
+    "Notes": "Light salad",
+    "Ingredients": [
+      {
+        "Name": "Lettuce",
+        "Amount": 200,
+        "UnitType": 0
+      },
+      {
+        "Name": "Chicken Fillet",
+        "Amount": 150,
+        "UnitType": 0
+      },
+      {
+        "Name": "Croutons",
+        "Amount": 50,
+        "UnitType": 0
+      },
+      {
+        "Name": "Parmesan",
+        "Amount": 30,
+        "UnitType": 0
+      },
+      {
+        "Name": "Caesar Sauce",
+        "Amount": 50,
+        "UnitType": 2
+      }
+    ],
+    "Steps": [
+      "Cut Lettuce",
+      "Fry chicken",
+      "Mix ingredients",
+      "Add sauce"
+    ]
+  }
+]

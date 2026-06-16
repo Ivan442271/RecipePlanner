@@ -1,26 +1,45 @@
-﻿using RecipePlanner.Application.Repositories;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.Json;
+using RecipePlanner.Application.Repositories;
 using RecipePlanner.Domain.Enums;
 using RecipePlanner.Domain.Interfaces;
 using RecipePlanner.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 
 namespace RecipePlanner.Application.Services
 {
     public class RecipeService
     {
         private readonly IRepository<Recipe> _repository;
-
-        private readonly string _settingsPath = "settings.json";
+        private readonly string _settingsPath;
 
         public RecipeService(IRepository<Recipe> repository)
-    {
-        _repository = repository;
-    }
+        {
+            _repository = repository;
 
-    public List<Recipe> GetAllRecipes()
+            string appFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "RecipePlanner");
+
+            if (!Directory.Exists(appFolder))
+            {
+                Directory.CreateDirectory(appFolder);
+            }
+
+            _settingsPath = Path.Combine(appFolder, "settings.json");
+
+            if (!File.Exists(_settingsPath))
+            {
+                string seedPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.json");
+                if (File.Exists(seedPath))
+                {
+                    File.Copy(seedPath, _settingsPath);
+                }
+            }
+        }
+
+        public List<Recipe> GetAllRecipes()
         {
             return _repository.GetAll();
         }
@@ -28,9 +47,7 @@ namespace RecipePlanner.Application.Services
         public void AddRecipe(Recipe recipe)
         {
             List<Recipe> recipes = _repository.GetAll();
-
             recipes.Add(recipe);
-
             _repository.SaveAll(recipes);
         }
 
@@ -44,14 +61,12 @@ namespace RecipePlanner.Application.Services
             }
 
             recipes.RemoveAt(index);
-
             _repository.SaveAll(recipes);
         }
 
         public List<Recipe> SearchByName(string name)
         {
             List<Recipe> recipes = _repository.GetAll();
-
             List<Recipe> foundRecipes = new List<Recipe>();
 
             foreach (Recipe recipe in recipes)
@@ -68,7 +83,6 @@ namespace RecipePlanner.Application.Services
         public List<Recipe> FilterByCategory(RecipeCategory category)
         {
             List<Recipe> recipes = _repository.GetAll();
-
             List<Recipe> filteredRecipes = new List<Recipe>();
 
             foreach (Recipe recipe in recipes)
@@ -125,29 +139,33 @@ namespace RecipePlanner.Application.Services
             if (!File.Exists(_settingsPath))
             {
                 AppSettings defaultSettings = new AppSettings();
-
                 defaultSettings.DefaultPortions = 1;
                 defaultSettings.DefaultSortOption = SortOption.ByName;
 
                 SaveSettings(defaultSettings);
-
                 return defaultSettings;
             }
 
             string json = File.ReadAllText(_settingsPath);
-
-            AppSettings settings =
-                System.Text.Json.JsonSerializer.Deserialize<AppSettings>(json);
+            AppSettings settings = JsonSerializer.Deserialize<AppSettings>(json);
 
             return settings;
         }
 
         public void SaveSettings(AppSettings settings)
         {
-            string json =
-                System.Text.Json.JsonSerializer.Serialize(settings);
-
-            File.WriteAllText(_settingsPath, json);
+            try
+            {
+                string json = JsonSerializer.Serialize(settings, new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                });
+                File.WriteAllText(_settingsPath, json);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

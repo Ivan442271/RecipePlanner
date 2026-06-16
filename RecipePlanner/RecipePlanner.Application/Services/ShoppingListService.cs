@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using RecipePlanner.Domain.Enums;
 using RecipePlanner.Domain.Models;
 
 namespace RecipePlanner.Application.Services
@@ -15,12 +16,12 @@ namespace RecipePlanner.Application.Services
             {
                 foreach (Ingredient ingredient in recipe.Ingredients)
                 {
-                    Ingredient existingIngredient = shoppingList
-                        .FirstOrDefault(i => i.Name == ingredient.Name);
+                    Ingredient existing = shoppingList
+                        .FirstOrDefault(i => i.Name.ToLower() == ingredient.Name.ToLower() && i.UnitType == ingredient.UnitType);
 
-                    if (existingIngredient != null)
+                    if (existing != null)
                     {
-                        existingIngredient.Amount += ingredient.Amount;
+                        existing.Amount += ingredient.Amount;
                     }
                     else
                     {
@@ -34,7 +35,22 @@ namespace RecipePlanner.Application.Services
                 }
             }
 
-            return shoppingList;
+            return shoppingList
+                .OrderBy(i => i.Name.ToLower())
+                .ThenBy(i => GetUnitSortOrder(i.UnitType))
+                .ToList();
+        }
+
+        private int GetUnitSortOrder(UnitType unitType)
+        {
+            switch (unitType)
+            {
+                case UnitType.Kilograms: return 1;
+                case UnitType.Grams: return 2;
+                case UnitType.Liters: return 3;
+                case UnitType.Milliliters: return 4;
+                default: return 5;
+            }
         }
     }
 }
